@@ -1,5 +1,7 @@
 from flask import Blueprint, request, redirect, url_for, render_template, flash
 from flask_bcrypt import Bcrypt
+from bson import ObjectId
+from flask import session
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin
 from .db import users_collection
 
@@ -16,10 +18,13 @@ class User(UserMixin):
 
 @login_manager.user_loader
 def load_user(user_id):
-    user_dict = users_collection.find_one({"_id": user_id})
-    if user_dict:
-        return User(user_dict)
-    return None
+    oid = ObjectId(user_id)
+
+    user_dict = users_collection.find_one({"_id": oid})
+    if not user_dict:
+        return None
+
+    return User(user_dict)
 
 @auth_bp.route("/register", methods=["GET", "POST"])
 def register():
@@ -44,6 +49,7 @@ def login():
         if user_dict and bcrypt.check_password_hash(user_dict["password"], password):
             user = User(user_dict)
             login_user(user)
+            session.pop('_flashes', None)
             return redirect(url_for("pages.home"))
         flash("Invalid username or password")
         return redirect(url_for("auth.login"))

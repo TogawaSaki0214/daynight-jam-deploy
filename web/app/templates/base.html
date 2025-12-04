@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Recipe Jam{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- later you can add CSS here -->
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="{{ url_for('pages.home') }}">Home</a>
+      <a href="{{ url_for('pages.recipe') }}">Recipe</a>
+      <a href="{{ url_for('auth.logout') }}">Logout</a>
+    </nav>
+  </header>
+
+  <main>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flash-messages">
+          {% for msg in messages %}
+            <li>{{ msg }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

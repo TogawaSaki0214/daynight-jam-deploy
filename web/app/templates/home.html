@@ -1,3 +1,32 @@
-<h1>Welcome Home!</h1>
-<a href="{{ url_for('auth.logout') }}">Logout</a>
-<a href="{{ url_for('pages.recipe') }}">Recipes</a>
+{% extends "base.html" %}
+
+{% block title %}Home · DayNight Recipe Jam{% endblock %}
+
+{% block content %}
+  <h1>What can I cook right now?</h1>
+  <p>
+    Welcome! This will be your main dashboard.
+  </p>
+
+  <section>
+    <h2>Quick start</h2>
+    <ol>
+      <li>Tell us what ingredients you have.</li>
+      <li>We’ll suggest recipes that fit.</li>
+      <li>We’ll guide you step-by-step while cooking.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Coming soon</h2>
+    <ul>
+      <li>Ingredient-based recipe recommendations</li>
+      <li>Cookware substitutions</li>
+      <li>Missing ingredient substitutions</li>
+      <li>Dynamic tips during each recipe step</li>
+    </ul>
+  </section>
+
+  <!-- later this will become a real form -->
+  <p><em>For now this is just a placeholder main page.</em></p>
+{% endblock %}
