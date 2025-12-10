@@ -4,6 +4,7 @@ from .db import (
     create_user,
     insert_recipe,
     find_recipe_by_id,
+    users_collection, 
 )
 
 __all__ = [
@@ -12,4 +13,5 @@ __all__ = [
     "create_user",
     "insert_recipe",
     "find_recipe_by_id",
+    "users_collection",
 ]
