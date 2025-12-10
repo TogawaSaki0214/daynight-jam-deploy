@@ -61,7 +61,7 @@ class MLClient:
     def __init__(
         self,
         api_key: str,
-        csv_path: Path = Path("./dataset/1_Recipe_csv.csv"),
+        csv_path: Path = Path("./ml_subsystem/dataset/1_Recipe_csv.csv"),
         model: str = "gpt-4o-mini",
         max_output_tokens: int = 1000,
     ) -> None:
@@ -357,7 +357,7 @@ def _get_default_client() -> MLClient:
                 "OPENAI_API_KEY is not set. "
                 "Set it in your environment before calling the ML API."
             )
-        csv_path = Path("./app/dataset/1_Recipe_csv.csv")
+        csv_path = Path("./ml_subsystem/dataset/1_Recipe_csv.csv")
         _default_client = MLClient(api_key=api_key, csv_path=csv_path)
     return _default_client
 
