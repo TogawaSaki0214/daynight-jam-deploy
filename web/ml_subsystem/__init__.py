@@ -16,7 +16,7 @@ def _get_default_client() -> MLClient:
         csv_path = os.getenv("RECIPES_CSV_PATH")
         if csv_path is None:
             repo_root = Path(__file__).resolve().parents[1]
-            csv_path = repo_root / "web" / "ml_subsystem" / "dataset" / "1_Recipe_csv.csv"
+            csv_path = repo_root / "ml_subsystem" / "dataset" / "1_Recipe_csv.csv"
 
         _default_client = MLClient(api_key=api_key, csv_path=Path(csv_path))
 
