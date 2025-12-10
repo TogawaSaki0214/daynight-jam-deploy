@@ -17,6 +17,10 @@ client = MongoClient(MONGO_URI)
 db = client["food_recommendation"]
 users_collection = db["users"]
 
+def init_mongo(app=None):
+    return init_db_client(app=app)
+
+
 def init_db_client(app=None):
     global mongo_client, db, USE_MONGO
     mongo_uri = os.getenv("MONGO_URI")
@@ -76,3 +80,17 @@ def find_recipe_by_id(rid):
         return recipes.find_one({"_id": rid})
     else:
         return _memory["recipes"].get(rid)
+
+def get_user_by_username(username: str):
+    """
+    Backwards-compatible helper to fetch a user by username.
+
+    This matches the older name some modules still import.
+    It looks up the user in MongoDB if available, otherwise
+    uses the in-memory fallback.
+    """
+    if USE_MONGO and db is not None:
+        users = db.get_collection("users")
+        return users.find_one({"username": username})
+    else:
+        return _memory["users"].get(username)
