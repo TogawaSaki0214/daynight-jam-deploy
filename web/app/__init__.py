@@ -1,5 +1,6 @@
 from flask import Flask
 from dotenv import load_dotenv
+from mongodb_subsystem import init_mongo
 from .auth import auth_bp, bcrypt, login_manager
 from .api import api_bp
 from .pages import pages_bp
@@ -8,6 +9,7 @@ def create_app():
     load_dotenv()
 
     app = Flask(__name__, static_folder="static", template_folder="templates")
+    init_mongo()
     app.config["SECRET_KEY"] = "dev-secret-key"  # TODO: move to .env later
 
     # Initialize extensions

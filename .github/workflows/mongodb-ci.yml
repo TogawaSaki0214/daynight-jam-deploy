@@ -1,0 +1,43 @@
+name: MongoDB CI
+
+on:
+  push:
+    paths:
+      - 'mongodb_subsystem/**'
+  pull_request:
+    paths:
+      - 'mongodb_subsystem/**'
+
+jobs:
+  test-mongodb:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'  
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r mongodb_subsystem/requirements.txt
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Start MongoDB container
+        run: |
+          docker compose -f docker-compose.yml up -d
+          docker ps
+
+      - name: Run tests
+        run: |
+          pytest mongodb_subsystem/tests --maxfail=1 --disable-warnings -q
+
+      - name: Stop MongoDB container
+        run: docker compose -f docker-compose.yml down
+
+
